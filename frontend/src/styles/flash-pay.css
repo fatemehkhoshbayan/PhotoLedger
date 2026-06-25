@@ -1,0 +1,260 @@
+/* ==========================================================================
+   Flash Pay — Design System Stylesheet
+   "Booked. Locked. Paid — automatically."
+   Extracted from the Flash Pay prototype. Font: Schibsted Grotesk.
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700;800;900&display=swap');
+
+/* --------------------------------------------------------------------------
+   1. Design Tokens
+   -------------------------------------------------------------------------- */
+:root {
+  /* Brand */
+  --fp-accent:        #C6F24E;   /* lime — primary actions, highlights */
+  --fp-accent-soft:   #EDF6D2;   /* pale lime — info chips, highlight fills */
+  --fp-accent-tint:   #FBFDF4;   /* faint lime — selected card fill */
+  --fp-on-accent:     #16160E;   /* text/icons on lime */
+  --fp-accent-ink:    #2E3B10;   /* deep lime-green — emphasis numerals */
+  --fp-accent-ink-2:  #3A4A14;   /* lime-green text on soft lime */
+  --fp-accent-ink-3:  #566B23;   /* muted lime-green */
+
+  /* Surfaces */
+  --fp-stage:         #0B0B07;   /* dark presentation backdrop */
+  --fp-stage-glow:    #1B1C12;   /* radial glow top of stage */
+  --fp-ink:           #16160E;   /* near-black (buttons, device) */
+  --fp-screen:        #F2EFE6;   /* warm cream — app background */
+  --fp-card:          #FFFFFF;   /* card surface */
+  --fp-card-2:        #EFEBDF;   /* tan sub-card / inset */
+  --fp-card-3:        #EAE6DA;   /* neutral chip avatar bg */
+
+  /* Text */
+  --fp-text:          #1A1A12;   /* primary text */
+  --fp-text-soft:     #5C5A4E;   /* secondary text */
+  --fp-muted:         #8A8779;   /* muted labels */
+  --fp-muted-2:       #A8A595;   /* faint captions */
+  --fp-on-dark:       #FFFFFF;   /* text on dark surfaces */
+  --fp-muted-dark:    #8E8E80;   /* muted on dark */
+
+  /* Lines */
+  --fp-line:          #E6E2D6;   /* hairline borders */
+  --fp-line-2:        #EFEBDF;   /* faint divider */
+  --fp-line-dash:     #E2DECF;   /* dashed divider */
+
+  /* Status */
+  --fp-success:       #2F7D57;   --fp-success-bg: #DCEFE0;
+  --fp-warning:       #9A7C30;   --fp-warning-bg: #F4EEDF;
+  --fp-warning-amber: #D89A2E;
+  --fp-danger:        #C2564B;   --fp-danger-bg:  #F4DBD4;
+
+  /* Type */
+  --fp-font: 'Schibsted Grotesk', system-ui, sans-serif;
+
+  /* Radii */
+  --fp-r-pill:   999px;
+  --fp-r-lg:     20px;
+  --fp-r-md:     16px;
+  --fp-r-sm:     14px;
+  --fp-r-xs:     11px;
+
+  /* Elevation */
+  --fp-shadow-card:   0 10px 26px -18px rgba(20, 19, 12, 0.5);
+  --fp-shadow-accent: 0 14px 30px -10px rgba(198, 242, 78, 0.7);
+  --fp-shadow-device: 0 44px 100px -28px rgba(0, 0, 0, 0.8), 0 0 0 2px rgba(255, 255, 255, 0.05);
+}
+
+/* --------------------------------------------------------------------------
+   2. Base
+   -------------------------------------------------------------------------- */
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body, #root { height: 100%; margin: 0; }
+
+.fp { font-family: var(--fp-font); color: var(--fp-text); -webkit-font-smoothing: antialiased; }
+
+.fp-stage {
+  font-family: var(--fp-font);
+  color: var(--fp-on-dark);
+  background: radial-gradient(125% 78% at 50% -8%, var(--fp-stage-glow) 0%, var(--fp-stage) 58%);
+}
+
+/* --------------------------------------------------------------------------
+   3. Typography
+   -------------------------------------------------------------------------- */
+.fp-display    { font-size: 29px; font-weight: 800; line-height: 1.08; letter-spacing: -0.025em; }
+.fp-h1         { font-size: 25px; font-weight: 800; letter-spacing: -0.02em; }
+.fp-h2         { font-size: 18px; font-weight: 800; letter-spacing: -0.01em; }
+.fp-title      { font-size: 15.5px; font-weight: 700; }
+.fp-body       { font-size: 14.5px; font-weight: 400; line-height: 1.42; }
+.fp-label      { font-size: 12px; font-weight: 500; color: var(--fp-muted); }
+.fp-eyebrow    { font-size: 10.5px; font-weight: 700; letter-spacing: 0.13em; text-transform: uppercase; color: var(--fp-muted-2); }
+.fp-amount     { font-size: 22px; font-weight: 800; letter-spacing: -0.01em; }
+.fp-amount-xl  { font-size: 40px; font-weight: 800; letter-spacing: -0.02em; }
+
+/* --------------------------------------------------------------------------
+   4. Logo mark
+   -------------------------------------------------------------------------- */
+.fp-logo {
+  width: 42px; height: 42px; border-radius: 13px;
+  background: var(--fp-accent);
+  display: inline-flex; align-items: center; justify-content: center;
+}
+.fp-logo svg { width: 23px; height: 23px; }
+.fp-wordmark { font-size: 24px; font-weight: 800; letter-spacing: -0.015em; color: var(--fp-on-dark); }
+.fp-tagline  { font-size: 14.5px; font-weight: 500; color: #76776A; }
+
+/* --------------------------------------------------------------------------
+   5. Buttons
+   -------------------------------------------------------------------------- */
+.fp-btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 9px;
+  border: none; cursor: pointer; font-family: var(--fp-font);
+  height: 54px; padding: 0 20px; border-radius: var(--fp-r-md);
+  font-size: 16px; font-weight: 700;
+}
+.fp-btn:disabled { cursor: not-allowed; opacity: 0.5; }
+.fp-btn--primary { background: var(--fp-accent); color: var(--fp-on-accent); }
+.fp-btn--dark    { background: var(--fp-ink);    color: var(--fp-on-dark); font-weight: 600; }
+.fp-btn--ghost {
+  background: var(--fp-card); color: var(--fp-text);
+  border: 1px solid #DCD8CB; height: 48px; font-size: 14.5px; font-weight: 600;
+}
+.fp-btn--block { width: 100%; }
+.fp-btn--compact { height: 46px; font-size: 14px; border-radius: var(--fp-r-sm); padding: 0 18px; }
+
+.fp-chip {
+  border: 1.5px solid #D6E4AE; cursor: pointer; font-family: var(--fp-font);
+  background: var(--fp-card); color: var(--fp-accent-ink-2);
+  border-radius: var(--fp-r-pill); padding: 9px 15px; font-size: 13.5px; font-weight: 600;
+  transition: background 0.12s ease;
+}
+.fp-chip:hover { background: var(--fp-accent-soft); }
+.fp-chip--filled { background: var(--fp-accent-soft); border: none; }
+
+.fp-toggle { display: inline-flex; padding: 5px; gap: 0;
+  background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.09);
+  border-radius: var(--fp-r-pill); }
+.fp-toggle__btn { border: none; cursor: pointer; font-family: var(--fp-font);
+  border-radius: var(--fp-r-pill); padding: 9px 22px; font-size: 14.5px; font-weight: 600;
+  background: transparent; color: #9A9A8C; }
+.fp-toggle__btn[aria-selected="true"] { background: var(--fp-accent); color: var(--fp-on-accent); }
+
+/* --------------------------------------------------------------------------
+   6. Status pills
+   -------------------------------------------------------------------------- */
+.fp-pill { display: inline-flex; align-items: center;
+  font-size: 11px; font-weight: 600; padding: 6px 11px; border-radius: var(--fp-r-pill); }
+.fp-pill--success { color: var(--fp-success); background: var(--fp-success-bg); }
+.fp-pill--warning { color: var(--fp-warning); background: var(--fp-warning-bg); }
+.fp-pill--danger  { color: var(--fp-danger);  background: var(--fp-danger-bg); }
+
+/* --------------------------------------------------------------------------
+   7. Cards & surfaces
+   -------------------------------------------------------------------------- */
+.fp-card {
+  background: var(--fp-card); border: 1px solid var(--fp-line);
+  border-radius: var(--fp-r-lg); padding: 18px;
+}
+.fp-card--raised { box-shadow: var(--fp-shadow-card); }
+.fp-card--inset  { background: var(--fp-card-2); border: none; border-radius: var(--fp-r-sm); padding: 11px 12px; }
+.fp-card--dark   { background: var(--fp-ink); color: var(--fp-on-dark); border: none; border-radius: 26px; }
+.fp-card--info   { background: var(--fp-accent-soft); border-radius: var(--fp-r-sm); padding: 11px 13px;
+                   color: var(--fp-accent-ink-2); font-size: 13px; font-weight: 600; }
+
+.fp-divider      { border: 0; border-top: 1px solid var(--fp-line-2); margin: 13px 0; }
+.fp-divider--dash { border: 0; border-top: 1px dashed var(--fp-line-dash); margin: 13px 0; }
+
+.fp-highlight {
+  border: 1.5px solid var(--fp-accent); background: var(--fp-accent-tint);
+  border-radius: var(--fp-r-sm); padding: 13px 14px;
+}
+.fp-highlight .fp-amount { color: var(--fp-accent-ink); }
+
+.fp-avatar {
+  width: 42px; height: 42px; border-radius: 13px;
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: 14px; font-weight: 700;
+}
+.fp-avatar--round { border-radius: 50%; }
+.fp-avatar--brand { background: var(--fp-accent); color: var(--fp-accent-ink); }
+.fp-avatar--dark  { background: var(--fp-ink);    color: var(--fp-accent); }
+.fp-avatar--neutral { background: var(--fp-card-3); color: #6E6B5C; }
+
+/* --------------------------------------------------------------------------
+   8. Chat bubbles
+   -------------------------------------------------------------------------- */
+.fp-bubble {
+  max-width: 82%; padding: 11px 14px; font-size: 14.5px; line-height: 1.42;
+  animation: fp-bubble-in 0.3s ease;
+}
+.fp-bubble--bot {
+  align-self: flex-start; background: var(--fp-card); border: 1px solid var(--fp-line);
+  color: #26261C; border-radius: 18px 18px 18px 6px; font-weight: 400;
+}
+.fp-bubble--user {
+  align-self: flex-end; background: var(--fp-accent); color: var(--fp-on-accent);
+  border-radius: 18px 18px 6px 18px; font-weight: 500;
+}
+
+.fp-input {
+  width: 100%;
+  height: 46px; border: 1.5px solid #D6E4AE; border-radius: var(--fp-r-sm);
+  padding: 0 14px; font-family: var(--fp-font); font-size: 14px; font-weight: 500;
+  color: var(--fp-text); background: var(--fp-card); outline: none;
+}
+.fp-input--error { border-color: var(--fp-danger); }
+.fp-field-error { margin: 4px 0 0; font-size: 12px; color: var(--fp-danger); }
+
+.fp-slots { display: grid; grid-template-columns: repeat(3, 1fr); gap: 7px;
+  max-height: 176px; overflow-y: auto; scrollbar-width: none; }
+.fp-slots::-webkit-scrollbar { display: none; }
+.fp-slot { border: 1.5px solid #D6E4AE; cursor: pointer; background: var(--fp-card);
+  color: var(--fp-accent-ink-2); border-radius: var(--fp-r-xs); padding: 9px 4px;
+  font-family: var(--fp-font); font-size: 13px; font-weight: 600; }
+.fp-slot:hover { background: var(--fp-accent-soft); }
+
+/* --------------------------------------------------------------------------
+   9. Calendar
+   -------------------------------------------------------------------------- */
+.fp-cal { background: var(--fp-card); border: 1px solid var(--fp-line);
+  border-radius: 18px; padding: 14px 14px 9px; }
+.fp-cal__head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 11px; }
+.fp-cal__nav { width: 30px; height: 30px; border: none; background: var(--fp-screen);
+  border-radius: 9px; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; }
+.fp-cal__month { font-size: 14.5px; font-weight: 700; }
+.fp-cal__grid { display: grid; grid-template-columns: repeat(7, 1fr); }
+.fp-cal__dow { text-align: center; font-size: 10.5px; font-weight: 600; color: #B3B0A1; }
+.fp-cal__cell { aspect-ratio: 1 / 1; display: flex; align-items: center; justify-content: center; }
+.fp-cal__day { width: 34px; height: 34px; border: none; border-radius: 10px; cursor: pointer;
+  background: transparent; color: var(--fp-text); font-family: var(--fp-font);
+  font-size: 13.5px; font-weight: 600; }
+.fp-cal__day:hover { background: var(--fp-accent-soft); }
+.fp-cal__day--muted { color: #C9C5B6; cursor: default; }
+.fp-cal__day--muted:hover { background: transparent; }
+
+/* --------------------------------------------------------------------------
+   10. Device frame
+   -------------------------------------------------------------------------- */
+.fp-phone { width: 388px; height: 760px; background: #100F0B; border-radius: 52px;
+  padding: 11px; position: relative; box-shadow: var(--fp-shadow-device); }
+.fp-phone__screen { width: 100%; height: 100%; background: var(--fp-screen);
+  border-radius: 42px; overflow: hidden; position: relative; display: flex; flex-direction: column; }
+.fp-phone__island { position: absolute; top: 12px; left: 50%; transform: translateX(-50%);
+  width: 108px; height: 30px; background: #100F0B; border-radius: 16px; z-index: 40; }
+.fp-phone__home { width: 128px; height: 5px; border-radius: 3px; background: var(--fp-text); opacity: 0.8; }
+
+/* --------------------------------------------------------------------------
+   11. Timeline
+   -------------------------------------------------------------------------- */
+.fp-step { display: flex; gap: 13px; }
+.fp-step__dot { width: 30px; height: 30px; border-radius: 50%; flex: none;
+  display: inline-flex; align-items: center; justify-content: center; }
+.fp-step__dot--done    { background: var(--fp-success-bg); color: var(--fp-success); }
+.fp-step__dot--pending { background: var(--fp-card-2);     color: var(--fp-muted); }
+
+/* --------------------------------------------------------------------------
+   12. Keyframes
+   -------------------------------------------------------------------------- */
+@keyframes fp-bubble-in { from { opacity: 0; transform: translateY(7px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes fp-slide-up  { from { transform: translateY(46px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+@keyframes fp-pulse-ring { 0% { transform: scale(1); opacity: 0.5; } 70% { transform: scale(1.32); opacity: 0; } 100% { opacity: 0; } }
