@@ -1,6 +1,6 @@
-# PhotoLedger
+# Flash Pay
 
-Help wedding photographers create and send invoices from the field — so they get paid faster.
+Help wedding photographers create and send estimate invoices from the field — booked, locked, and paid automatically.
 
 ## Frontend
 
@@ -14,9 +14,9 @@ npm run dev
 
 ### Routes
 
-- `/` — Landing page with **Start Invoice** CTA
-- `/chat` — AI chat interface for collecting invoice details
+- `/` — Welcome screen with booking chips and **Start chatting** CTA
+- `/chat` — Guided conversational booking flow (venue, date, time, coverage, contact)
 
 ### Chatbot integration
 
-The chat UI calls `frontend/src/services/chatService.ts`. Replace the mock `sendMessage` implementation with the real API when the backend team is ready.
+The chat UI calls `frontend/src/services/chatService.ts`. Replace the mock `submitBookingRequest` implementation with the real API when the backend team is ready.
