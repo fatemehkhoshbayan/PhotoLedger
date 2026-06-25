@@ -1,0 +1,13 @@
+@import 'tailwindcss';
+
+@layer base {
+  html,
+  body,
+  #root {
+    @apply min-h-screen;
+  }
+
+  body {
+    @apply m-0 antialiased;
+  }
+}
