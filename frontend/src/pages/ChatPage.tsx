@@ -1,66 +1,153 @@
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
-import ChatInput from '../components/ChatInput'
-import MessageList from '../components/MessageList'
-import { sendMessage } from '../services/chatService'
-import type { Message } from '../types/chat'
-
-const INITIAL_MESSAGE: Message = {
-  id: 'welcome',
-  sender: 'bot',
-  text: "Hi! I'm here to help you create an invoice. What's the client's name?",
-}
-
-function createMessage(sender: Message['sender'], text: string): Message {
-  return {
-    id: crypto.randomUUID(),
-    sender,
-    text,
-  }
-}
+import ChatThread from '../components/chat/ChatThread'
+import FlashPayShell from '../components/FlashPayShell'
+import { BackIcon, LogoIcon, SendRequestIcon } from '../components/FlashPayIcons'
+import PhoneFrame from '../components/PhoneFrame'
+import { CHAT_STEPS } from '../data/chatSteps'
+import type { BookingStepValues } from '../data/chatSteps'
+import { submitBookingRequest } from '../services/chatService'
+import { EMPTY_BOOKING, type BookingData } from '../types/booking'
+import { priceForDuration } from '../utils/bookingChat'
 
 export default function ChatPage() {
-  const [messages, setMessages] = useState<Message[]>([INITIAL_MESSAGE])
-  const [isLoading, setIsLoading] = useState(false)
+  const [stepIndex, setStepIndex] = useState(0)
+  const [selections, setSelections] = useState<Partial<BookingStepValues>>({})
+  const [draft, setDraft] = useState('')
+  const [calYear, setCalYear] = useState(2026)
+  const [calMonth, setCalMonth] = useState(5)
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [isSubmitted, setIsSubmitted] = useState(false)
 
-  async function handleSend(text: string) {
-    const userMessage = createMessage('user', text)
-    setMessages((current) => [...current, userMessage])
-    setIsLoading(true)
+  const chatDone = stepIndex >= CHAT_STEPS.length
+
+  const booking = useMemo<BookingData>(() => {
+    const price = selections.duration
+      ? priceForDuration(selections.duration)
+      : EMPTY_BOOKING.price
+
+    return {
+      venue: selections.venue ?? '',
+      date: selections.date ?? '',
+      time: selections.time ?? '',
+      duration: selections.duration ?? '',
+      email: selections.email ?? '',
+      phone: selections.phone ?? '',
+      price,
+    }
+  }, [selections])
+
+  function pick(key: keyof BookingStepValues, value: string) {
+    setSelections((current) => {
+      const next = { ...current, [key]: value }
+      return next
+    })
+    setStepIndex((current) => current + 1)
+    setDraft('')
+  }
+
+  function chooseDate(label: string) {
+    pick('date', label)
+  }
+
+  function submitInput() {
+    const step = CHAT_STEPS[stepIndex]
+    if (!step || step.type !== 'input') return
+
+    const value = draft.trim()
+    if (!value) return
+
+    if (step.inputType === 'email' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+      return
+    }
+
+    pick(step.key, value)
+  }
+
+  function handleCalPrev() {
+    setCalMonth((month) => {
+      if (month === 0) {
+        setCalYear((year) => year - 1)
+        return 11
+      }
+      return month - 1
+    })
+  }
+
+  function handleCalNext() {
+    setCalMonth((month) => {
+      if (month === 11) {
+        setCalYear((year) => year + 1)
+        return 0
+      }
+      return month + 1
+    })
+  }
+
+  async function handleSubmitRequest() {
+    setIsSubmitting(true)
 
     try {
-      const reply = await sendMessage(text)
-      setMessages((current) => [...current, createMessage('bot', reply)])
+      await submitBookingRequest(booking)
+      setIsSubmitted(true)
     } finally {
-      setIsLoading(false)
+      setIsSubmitting(false)
     }
   }
 
   return (
-    <div className="flex min-h-screen flex-col bg-stone-100">
-      <header className="border-b border-stone-200 bg-white px-4 py-4 sm:px-6">
-        <div className="mx-auto flex max-w-3xl items-center justify-between gap-4">
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-amber-700">
-              PhotoLedger
-            </p>
-            <h1 className="text-lg font-semibold text-stone-900 sm:text-xl">
-              Invoice Assistant
-            </h1>
-          </div>
-          <Link
-            to="/"
-            className="text-sm font-medium text-stone-500 transition hover:text-stone-800"
-          >
-            Back
-          </Link>
-        </div>
-      </header>
+    <FlashPayShell perspective="client">
+      <PhoneFrame>
+        <div className="fp-screen-panel">
+          <header className="fp-chat-header">
+            <Link to="/" className="fp-icon-btn" aria-label="Back">
+              <BackIcon />
+            </Link>
+            <span className="fp-logo" style={{ width: 36, height: 36, borderRadius: 11 }}>
+              <LogoIcon size={19} />
+            </span>
+            <div>
+              <div className="fp-title">Flash Pay</div>
+              <div className="fp-label">Booking with Matt Reyes</div>
+            </div>
+          </header>
 
-      <div className="mx-auto flex w-full max-w-3xl flex-1 flex-col">
-        <MessageList messages={messages} isLoading={isLoading} />
-        <ChatInput onSend={handleSend} disabled={isLoading} />
-      </div>
-    </div>
+          <ChatThread
+            stepIndex={stepIndex}
+            selections={selections}
+            draft={draft}
+            calYear={calYear}
+            calMonth={calMonth}
+            booking={booking}
+            onDraftChange={setDraft}
+            onSubmitInput={submitInput}
+            onPick={pick}
+            onSelectDate={chooseDate}
+            onCalPrev={handleCalPrev}
+            onCalNext={handleCalNext}
+          />
+
+          <div className="fp-chat-footer">
+            {isSubmitted ? (
+              <div className="fp-chat-footer__done">
+                Request sent — Matt will confirm your booking soon.
+              </div>
+            ) : chatDone ? (
+              <button
+                type="button"
+                className="fp-btn fp-btn--primary fp-btn--block fp-btn--send-request"
+                onClick={handleSubmitRequest}
+                disabled={isSubmitting}
+              >
+                Send request to Matt
+                <SendRequestIcon />
+              </button>
+            ) : (
+              <div className="fp-chat-footer__waiting">Answer above to continue…</div>
+            )}
+          </div>
+        </div>
+      </PhoneFrame>
+    </FlashPayShell>
   )
 }

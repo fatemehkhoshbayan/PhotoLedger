@@ -1,5 +1,7 @@
-// Replace this function body when the real chatbot API is ready.
-export async function sendMessage(message: string): Promise<string> {
+import type { BookingData } from '../types/booking'
+
+// Replace these function bodies when the real chatbot API is ready.
+export async function submitBookingRequest(booking: BookingData): Promise<void> {
   await new Promise((resolve) => setTimeout(resolve, 600))
-  return `Got it: "${message}". What's next?`
+  console.info('Booking request ready for Matt:', booking)
 }
