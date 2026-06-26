@@ -1,4 +1,4 @@
-# Flash Pay
+# PhotoLedger
 
 Help wedding photographers create and send estimate invoices from the field — booked, locked, and paid automatically.
 

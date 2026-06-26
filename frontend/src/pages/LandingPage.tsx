@@ -37,7 +37,7 @@ export default function LandingPage() {
             </p>
 
             <div className="fp-bubble fp-bubble--bot" style={{ marginTop: 26, maxWidth: '90%' }}>
-              Hi! I&apos;m Flash Pay. Tell me about your big day and I&apos;ll send the details to
+              Hi! I&apos;m PhotoLedger. Tell me about your big day and I&apos;ll send the details to
               Matt to confirm.
             </div>
 

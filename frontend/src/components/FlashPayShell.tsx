@@ -30,7 +30,7 @@ export default function FlashPayShell({
           <span className="fp-logo">
             <LogoIcon />
           </span>
-          <span className="fp-wordmark">Flash Pay</span>
+          <span className="fp-wordmark">PhotoLedger</span>
           <span className="fp-tagline">Booked. Locked. Paid — automatically.</span>
         </div>
         <div className="fp-toggle" role="tablist" aria-label="Perspective">

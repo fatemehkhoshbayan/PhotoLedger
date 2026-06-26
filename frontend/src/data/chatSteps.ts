@@ -22,7 +22,7 @@ export const CHAT_STEPS: ChatStep[] = [
   {
     key: 'venue',
     type: 'input',
-    q: "Hi, I'm Flash Pay! I'll help you book Matt Reyes for your big day. First — where's the celebration?",
+    q: "Hi, I'm PhotoLedger! I'll help you book Matt Reyes for your big day. First — where's the celebration?",
     placeholder: 'e.g. The Old Mill, Sonoma',
     inputType: 'text',
   },

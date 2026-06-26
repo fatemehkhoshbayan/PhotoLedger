@@ -107,7 +107,7 @@ export default function ChatPage() {
               <LogoIcon size={19} />
             </span>
             <div>
-              <div className="fp-title">Flash Pay</div>
+              <div className="fp-title">PhotoLedger</div>
               <div className="fp-label">Booking with Matt Reyes</div>
             </div>
           </header>
